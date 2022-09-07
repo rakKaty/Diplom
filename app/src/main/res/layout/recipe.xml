@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/recipeName"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginTop="@dimen/common_spacing"
+        android:layout_marginEnd="@dimen/common_spacing"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toTopOf="@id/category"
+        app:layout_constraintEnd_toStartOf="@id/options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Название рецепта" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:ellipsize="end"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@id/recipeName"
+        app:layout_constraintStart_toStartOf="@id/recipeName"
+        app:layout_constraintTop_toBottomOf="@id/recipeName"
+        tools:text="Категория" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/options"
+        style="@style/Widget.AppTheme.OptionsIcon"
+        android:layout_width="@dimen/icon_button_min_size"
+        android:layout_height="wrap_content"
+        android:checkable="false"
+        app:icon="@drawable/ic_options_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recipeName" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/headerBarrier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="category, options" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/recipePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_marginTop="@dimen/common_spacing"
+        android:src="@drawable/screen_shot"
+        app:layout_constraintTop_toBottomOf="@id/headerBarrier" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/authorName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/common_spacing"
+        android:layout_marginBottom="@dimen/common_double_spacing"
+        app:layout_constraintStart_toStartOf="@id/recipeName"
+        app:layout_constraintTop_toBottomOf="@id/recipePhoto"
+        tools:text="Имя автора рецепта" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/recipeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginTop="@dimen/common_spacing"
+        android:layout_marginEnd="@dimen/common_spacing"
+        app:layout_constraintTop_toBottomOf="@id/authorName" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bottomBarrier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="recipeText" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/likesIcon"
+        style="@style/Widget.AppTheme.LikeIconCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        app:backgroundTint="@android:color/transparent"
+        app:icon="@drawable/ic_like_24"
+        app:layout_constraintStart_toStartOf="@id/recipeName"
+        app:layout_constraintTop_toBottomOf="@id/bottomBarrier" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/shareIcon"
+        style="@style/Widget.AppTheme.ShareAndViewsIcons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_share_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/likesIcon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

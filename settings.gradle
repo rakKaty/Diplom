@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "My Application 1.0"
+rootProject.name = "NeRecipe20"
 include ':app'
