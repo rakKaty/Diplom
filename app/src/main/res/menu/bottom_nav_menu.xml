@@ -11,5 +11,5 @@
     <item
         android:id="@+id/filters"
         android:title="@string/filters"
-        android:icon="@drawable/ic_search_48dp"/>
+        android:icon="@drawable/ic_filter_48dp"/>
 </menu>

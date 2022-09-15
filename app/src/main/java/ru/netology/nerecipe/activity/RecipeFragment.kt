@@ -1,7 +1,6 @@
 package ru.netology.nerecipe.activity
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,10 +41,6 @@ class RecipeFragment : Fragment() {
             startActivity(shareIntent)
         }
 
-        viewModel.playVideo.observe(viewLifecycleOwner) { url ->
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
-        }
 
         viewModel.navigateToRecipeAddOrEditScreen.observe(viewLifecycleOwner) { recipeId ->
             findNavController().navigate(

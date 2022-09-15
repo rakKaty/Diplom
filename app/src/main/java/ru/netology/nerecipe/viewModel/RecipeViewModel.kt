@@ -2,7 +2,6 @@ package ru.netology.nerecipe.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nerecipe.Recipe
 import ru.netology.nerecipe.adapter.RecipeInteractionListener
@@ -10,7 +9,6 @@ import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.data.impl.RecipeRepositoryImpl
 import ru.netology.nerecipe.util.SingleLiveEvent
 import ru.netology.nerecipe.db.AppDb
-import ru.netology.nerecipe.db.RecipeEntity
 
 
 class RecipeViewModel(
@@ -28,20 +26,9 @@ class RecipeViewModel(
     //val data get() = repository.data  - тоже самое
 
     val shareRecipeContent = SingleLiveEvent<Recipe>()
-
-
-    /* Было вот так, просто текст передавался
-    val navigateToPostContentScreen = SingleLiveEvent<String?>()
-     */
     val navigateToRecipeAddOrEditScreen = SingleLiveEvent<Long?>()
-
-
     val navigateToDetailedRecipeScreen = SingleLiveEvent<Long>()
 
-    /**
-     * Значение события содержит url видео для воспроизведения
-     */
-    val playVideo = SingleLiveEvent<String>()
 
     private val currentRecipe = MutableLiveData<Recipe?>(null)
 
@@ -72,7 +59,7 @@ class RecipeViewModel(
         currentRecipe.value = null
     }
 
-
+    fun searchRecipeByName(recipeName: String) = repository.search(recipeName)
 
     //region PostInteractionListener
     override fun onLikeClicked(recipe: Recipe) = repository.like(recipe.id)
@@ -80,8 +67,6 @@ class RecipeViewModel(
     override fun onFavouriteClicked(recipe: Recipe) {
         repository.favourite(recipe.id)
     }
-
-
 
     override fun onShareClicked(recipe: Recipe) {
         repository.share(recipe.id)
@@ -91,18 +76,9 @@ class RecipeViewModel(
     override fun onRemoveClicked(recipe: Recipe) = repository.delete(recipe.id)
 
     override fun onEditClicked(recipe: Recipe) {
-        currentRecipe.value = recipe // закидываем пост в поток
+        currentRecipe.value = recipe
         navigateToRecipeAddOrEditScreen.value =
-            recipe.id // отобразится весь пост на экране
-    }
-
-
-
-    override fun onPlayVideoClicked(recipe: Recipe) {
-        val url = requireNotNull(recipe.photo) {
-            "Url is null"
-        }
-        playVideo.value = url
+            recipe.id
     }
 
     override fun onRecipeClicked(id: Long) {

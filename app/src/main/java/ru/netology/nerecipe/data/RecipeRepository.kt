@@ -12,6 +12,7 @@ interface RecipeRepository {
     fun share(recipeId: Long)
     fun delete(recipeId: Long)
     fun save(recipe: Recipe)
+    fun search(recipeName: String)
 
 
     companion object {

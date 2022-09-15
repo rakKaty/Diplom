@@ -64,13 +64,7 @@ class AppActivity : AppCompatActivity() {
             R.id.action_feedFragment_to_recipeFragment,
             Bundle().apply { idArg = recipeId }
         )
-
-
     }
-
-
-
-
 }
 
 

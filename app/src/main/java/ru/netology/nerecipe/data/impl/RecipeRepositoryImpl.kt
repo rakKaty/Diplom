@@ -1,11 +1,10 @@
 package ru.netology.nerecipe.data.impl
 
-import androidx.lifecycle.LiveData
+
 import androidx.lifecycle.map
 import ru.netology.nerecipe.Recipe
 import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.db.RecipeDao
-import ru.netology.nerecipe.db.RecipeEntity
 import ru.netology.nerecipe.db.toEntity
 import ru.netology.nerecipe.db.toModel
 
@@ -37,5 +36,9 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) :
 
     override fun delete(recipeId: Long) {
         dao.removeById(recipeId)
+    }
+
+    override fun search(recipeName: String) {
+        dao.search(recipeName)
     }
 }
