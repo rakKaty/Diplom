@@ -1,24 +1,17 @@
 package ru.netology.nerecipe.activity
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nerecipe.R
-import ru.netology.nerecipe.Recipe
-import ru.netology.nerecipe.activity.NewRecipeFragment.Companion.textArg
 import ru.netology.nerecipe.activity.RecipeFragment.Companion.idArg
 import ru.netology.nerecipe.adapter.PreviewRecipesAdapter
-import ru.netology.nerecipe.adapter.RecipesAdapter
 import ru.netology.nerecipe.databinding.FragmentFeedBinding
 import ru.netology.nerecipe.viewModel.RecipeViewModel
 
@@ -33,7 +26,6 @@ class FeedFragment : Fragment() {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
 
         val viewModel: RecipeViewModel by viewModels(ownerProducer = ::requireParentFragment)
-
 
 
         val adapter = PreviewRecipesAdapter(viewModel)
@@ -55,31 +47,58 @@ class FeedFragment : Fragment() {
             startActivity(shareIntent)
         }
 
-        viewModel.playVideo.observe(viewLifecycleOwner) { url ->
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
-        }
 
         binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+            findNavController().navigate(R.id.action_feedFragment_to_newRecipeFragment)
         }
 
 
-
-        viewModel.navigateToPostContentScreen.observe(viewLifecycleOwner) { text ->
+        viewModel.navigateToRecipeAddOrEditScreen.observe(viewLifecycleOwner) { recipeId ->
             findNavController().navigate(
-                R.id.action_feedFragment_to_newPostFragment,
-                Bundle().apply { textArg = text }
+                R.id.action_feedFragment_to_newRecipeFragment,
+                Bundle().apply { idArg = recipeId }
             )
         }
 
-        viewModel.navigateToPostScreen.observe(viewLifecycleOwner) { recipeId ->
-            findNavController().navigate(R.id.action_feedFragment_to_postFragment,
+
+        viewModel.navigateToDetailedRecipeScreen.observe(viewLifecycleOwner) { recipeId ->
+            findNavController().navigate(R.id.action_feedFragment_to_recipeFragment,
                 Bundle().apply { idArg = recipeId })
         }
 
         val manager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
         binding.recipesRecyclerView.layoutManager = manager
+
+
+        binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.favourite -> {
+
+                    binding.fab.visibility = View.GONE
+
+                    viewModel.data.observe(viewLifecycleOwner) { recipes ->
+                        val favouriteRecipes = recipes.filter { it.favouriteByMe }
+                        adapter.submitList(favouriteRecipes)
+
+                        val emptyList = recipes.none { it.favouriteByMe }
+                        binding.textBackground.visibility =
+                            if (emptyList) View.VISIBLE else View.GONE
+                    }
+                    true
+                }
+
+                R.id.home -> {
+
+                    viewModel.data.observe(viewLifecycleOwner) { recipes ->
+                        binding.textBackground.visibility = View.GONE
+                        adapter.submitList(recipes)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+
 
 /* НАЧАЛО drag and drop. Проблема - нет досутпа к мутабл дата,
 есть только доступ к дата из вьюМодели - она неизменяемая, просто List

@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/postLayout"
+        android:id="@+id/recipeLayout"
         layout="@layout/recipe"/>
 
 </ScrollView>

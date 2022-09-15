@@ -10,6 +10,8 @@
         android:id="@+id/recipesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginEnd="@dimen/common_spacing"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:layout_editor_absoluteX="-16dp"
         tools:layout_editor_absoluteY="-16dp"
@@ -20,89 +22,89 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/common_spacing"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_24dp"
+        android:contentDescription="@string/description" />
+
+
+
+      <com.google.android.material.bottomnavigation.BottomNavigationView
+          android:id="@+id/bottomNavigationView"
+          android:layout_width="match_parent"
+          android:layout_height="75dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.5"
+          app:layout_constraintStart_toStartOf="parent"
+          app:menu="@menu/bottom_nav_menu"/>
+
+    <TextView
+        android:id="@+id/textBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_background"
+        android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_24dp" />
-
-
-
-
-
-
-
-    <!--Пытаюсь добавить на главный экран жирную полоску с кнопками
-    избранное, поиск, фильтры (как у Лены, см.фото)-->
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/groupEditCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="
-        backgroundEditing, editIcon, editMessage,
-        editingAuthorName, cancelEditButton" />
-
-    <ImageView
-        android:id="@+id/backgroundEditing"
-        android:layout_width="match_parent"
-        android:layout_height="@id/editMessage"
-        android:contentDescription="@string/description"
-        android:background="@android:color/holo_blue_bright"
-        app:layout_constraintTop_toTopOf="@id/editIcon"
-        app:layout_constraintEnd_toEndOf="@id/cancelEditButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/editIcon"
-        android:layout_width="@dimen/post_avatar_size"
-        android:layout_height="@dimen/post_avatar_size"
-        android:layout_marginStart="@dimen/common_spacing"
-        android:layout_marginTop="@dimen/common_spacing"
-        android:contentDescription="@string/description"
-        android:background="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/toolsTopBarrier"
-        app:srcCompat="@drawable/ic_edit_48" />
+    <!--  Пытаюсь добавить на главный экран жирную полоску с кнопками
+      избранное, поиск, фильтры (как у Лены, см.фото)
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/editMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_spacing"
-        android:layout_marginEnd="@dimen/common_spacing"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:background="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@id/editingAuthorName"
-        app:layout_constraintEnd_toStartOf="@id/cancelEditButton"
-        app:layout_constraintStart_toEndOf="@id/editIcon"
-        app:layout_constraintTop_toTopOf="@id/editIcon"
-        android:text="@string/edit_message" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/editingAuthorName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:background="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@id/editIcon"
-        app:layout_constraintEnd_toEndOf="@id/editMessage"
-        app:layout_constraintStart_toStartOf="@id/editMessage"
-        app:layout_constraintTop_toBottomOf="@id/editMessage"
-        android:text="@string/netology" />
+      <ImageView
+          android:id="@+id/backgroundEditing"
+          android:layout_width="match_parent"
+          android:layout_height="@id/homeButton"
+          android:contentDescription="@string/description"
+          android:background="@android:color/white"
+          app:layout_constraintTop_toTopOf="@id/homeButton"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent" />
 
-    <ImageButton
-        android:id="@+id/cancelEditButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_spacing"
-        android:background="@android:color/white"
-        android:contentDescription="@string/description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/contentEditText"
-        app:layout_constraintBottom_toTopOf="@id/toolsTopBarrier"
-        app:srcCompat="@drawable/ic_cancel_save_48" />
+      <ImageButton
+          android:id="@+id/homeButton"
+          android:layout_width="@dimen/post_avatar_size"
+          android:layout_height="@dimen/post_avatar_size"
+          android:layout_marginStart="@dimen/common_spacing"
+          android:layout_marginTop="@dimen/common_double_spacing"
+          android:contentDescription="@string/description"
+          android:background="@android:color/white"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:srcCompat="@drawable/ic_home_48dp" />
+
+
+      <ImageButton
+          android:id="@+id/favouriteButton"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          android:layout_marginTop="@dimen/common_double_spacing"
+          android:background="@android:color/white"
+          android:contentDescription="@string/description"
+          app:layout_constraintStart_toEndOf="@id/homeButton"
+          app:layout_constraintEnd_toStartOf="@id/searchButton"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:srcCompat="@drawable/ic_favourite_pressed_48dp" />
+
+
+      <ImageButton
+          android:id="@+id/searchButton"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          android:layout_marginEnd="@dimen/common_spacing"
+          android:layout_marginTop="@dimen/common_double_spacing"
+          android:background="@android:color/white"
+          android:contentDescription="@string/description"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:srcCompat="@drawable/ic_search_48dp" />
+
+          -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

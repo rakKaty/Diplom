@@ -21,6 +21,12 @@
         <item name="minHeight">@dimen/icon_button_min_size</item>
     </style>
 
+    <style name="Widget.AppTheme.FavouriteIconCheckbox" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconTint">@color/favourite_checkbox_tint</item>
+        <item name="minWidth">@dimen/icon_button_min_size</item>
+        <item name="minHeight">@dimen/icon_button_min_size</item>
+    </style>
+
 
     <style name="Widget.AppTheme.ShareAndViewsIcons" parent="Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="iconTint">?attr/colorControlNormal</item>
@@ -38,6 +44,14 @@
         <item name="iconTint">@color/options_checkbox_tint</item>
         <item name="minWidth">@dimen/icon_button_min_size</item>
         <item name="minHeight">@dimen/icon_button_min_size</item>
+    </style>
+
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/options_checkbox_tint</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_700</item>
     </style>
 
 

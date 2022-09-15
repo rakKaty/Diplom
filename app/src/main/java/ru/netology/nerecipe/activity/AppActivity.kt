@@ -3,16 +3,17 @@ package ru.netology.nerecipe.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.nerecipe.R
-import ru.netology.nerecipe.activity.NewRecipeFragment.Companion.textArg
 import ru.netology.nerecipe.activity.RecipeFragment.Companion.idArg
 import ru.netology.nerecipe.databinding.ActivityAppBinding
 
 class AppActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityAppBinding
+    private lateinit var binding: ActivityAppBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +36,11 @@ class AppActivity : AppCompatActivity() {
 
         val recipeId = intent.getLongExtra(Intent.EXTRA_TEXT, 0L)
 
-        val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-        if (text.isNullOrBlank()) {
+        val recipeText = intent.getStringExtra(Intent.EXTRA_TEXT)
 
+
+
+        if (recipeText.isNullOrBlank()) {
             Snackbar.make(
                 binding.root,
                 "Присланный текст пустой",
@@ -47,22 +50,28 @@ class AppActivity : AppCompatActivity() {
             }.show()
         }
 
+
         val fragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
         fragment.navController.navigate(
-            R.id.action_feedFragment_to_newPostFragment,
-            Bundle().apply { textArg = text }
-        )
-
-
-      fragment.navController.navigate(
-            R.id.action_feedFragment_to_postFragment,
+            R.id.action_feedFragment_to_newRecipeFragment,
             Bundle().apply { idArg = recipeId }
         )
-    }
-}
 
+
+        fragment.navController.navigate(
+            R.id.action_feedFragment_to_recipeFragment,
+            Bundle().apply { idArg = recipeId }
+        )
+
+
+    }
+
+
+
+
+}
 
 
 
