@@ -2,14 +2,15 @@ package ru.netology.nerecipe.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nerecipe.CategoryType
 import ru.netology.nerecipe.Recipe
 import ru.netology.nerecipe.adapter.RecipeInteractionListener
 import ru.netology.nerecipe.data.RecipeRepository
 import ru.netology.nerecipe.data.impl.RecipeRepositoryImpl
 import ru.netology.nerecipe.util.SingleLiveEvent
-import ru.netology.nmedia.db.AppDb
+import ru.netology.nerecipe.db.AppDb
+import ru.netology.nerecipe.db.RecipeEntity
 
 
 class RecipeViewModel(
@@ -27,8 +28,15 @@ class RecipeViewModel(
     //val data get() = repository.data  - тоже самое
 
     val shareRecipeContent = SingleLiveEvent<Recipe>()
+
+
+    /* Было вот так, просто текст передавался
     val navigateToPostContentScreen = SingleLiveEvent<String?>()
-    val navigateToPostScreen = SingleLiveEvent<Long>()
+     */
+    val navigateToRecipeAddOrEditScreen = SingleLiveEvent<Long?>()
+
+
+    val navigateToDetailedRecipeScreen = SingleLiveEvent<Long>()
 
     /**
      * Значение события содержит url видео для воспроизведения
@@ -37,24 +45,43 @@ class RecipeViewModel(
 
     private val currentRecipe = MutableLiveData<Recipe?>(null)
 
-    override fun onCreateNewPost(newPostContent: String) {
-        if (newPostContent.isBlank()) return
-        val recipe = currentRecipe.value?.copy(
-            content = newPostContent
+
+    override fun onCreateNewRecipeNew(
+        recipeName: String,
+        content: String,
+        authorName: String,
+        recipeCategory: String,
+        photo: String?
+    ) {
+        if (recipeName.isBlank() || content.isBlank()) return
+        val newRecipe = currentRecipe.value?.copy(
+            recipeName = recipeName,
+            content = content,
+            authorName = authorName,
+            photo = photo
+
         ) ?: Recipe( // если current.value null, то мы в режиме создания поста, а не редактирования
             id = RecipeRepository.NEW_POST_ID,
-            recipeName = "Recipe name",
-            content = newPostContent,
-            authorName = "Author name",
-            recipeCategory = CategoryType.Asian
+            recipeName = recipeName,
+            content = content,
+            authorName = authorName,
+            recipeCategory = recipeCategory,
+            photo = photo
         )
-        repository.save(recipe)
+        repository.save(newRecipe)
         currentRecipe.value = null
     }
 
 
+
     //region PostInteractionListener
     override fun onLikeClicked(recipe: Recipe) = repository.like(recipe.id)
+
+    override fun onFavouriteClicked(recipe: Recipe) {
+        repository.favourite(recipe.id)
+    }
+
+
 
     override fun onShareClicked(recipe: Recipe) {
         repository.share(recipe.id)
@@ -65,9 +92,11 @@ class RecipeViewModel(
 
     override fun onEditClicked(recipe: Recipe) {
         currentRecipe.value = recipe // закидываем пост в поток
-        navigateToPostContentScreen.value =
-            recipe.content // отобразится контент текущего поста на экране
+        navigateToRecipeAddOrEditScreen.value =
+            recipe.id // отобразится весь пост на экране
     }
+
+
 
     override fun onPlayVideoClicked(recipe: Recipe) {
         val url = requireNotNull(recipe.photo) {
@@ -76,8 +105,8 @@ class RecipeViewModel(
         playVideo.value = url
     }
 
-    override fun onPostClicked(id: Long) {
-        navigateToPostScreen.value = id
+    override fun onRecipeClicked(id: Long) {
+        navigateToDetailedRecipeScreen.value = id
     }
 
     //endregion

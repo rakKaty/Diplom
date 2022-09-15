@@ -1,4 +1,4 @@
-package ru.netology.nmedia.db
+package ru.netology.nerecipe.db
 
 import ru.netology.nerecipe.Recipe
 
@@ -8,11 +8,12 @@ internal fun RecipeEntity.toModel() = Recipe(
     recipeName = recipeName,
     content = content,
     authorName = authorName,
-    recipeCategory = CategoryType,
+    recipeCategory = categoryType,
     likes = likes,
-    likedByMe =  likedByMe,
+    likedByMe = likedByMe,
     shares = shares,
-    photo = photo
+    photo = photo,
+    favouriteByMe = favouriteByMe
 )
 
 
@@ -21,9 +22,10 @@ internal fun Recipe.toEntity() = RecipeEntity(
     recipeName = recipeName,
     content = content,
     authorName = authorName,
-    CategoryType = recipeCategory,
+    categoryType = recipeCategory,
     likes = likes,
-    likedByMe =  likedByMe,
+    likedByMe = likedByMe,
     shares = shares,
-    photo = photo
+    photo = photo,
+    favouriteByMe = favouriteByMe
 )

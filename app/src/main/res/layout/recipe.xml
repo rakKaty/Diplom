@@ -56,9 +56,9 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/recipePhoto"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="304dp"
         android:layout_marginTop="@dimen/common_spacing"
-        android:src="@drawable/screen_shot"
+        android:src="@drawable/no_photo"
         app:layout_constraintTop_toBottomOf="@id/headerBarrier" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -91,6 +91,18 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="recipeText" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/favouriteIcon"
+        style="@style/Widget.AppTheme.FavouriteIconCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:checkable="true"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:icon="@drawable/ic_favourite_24"
+        />
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/likesIcon"
@@ -100,7 +112,7 @@
         android:checkable="true"
         app:backgroundTint="@android:color/transparent"
         app:icon="@drawable/ic_like_24"
-        app:layout_constraintStart_toStartOf="@id/recipeName"
+        app:layout_constraintEnd_toStartOf="@id/shareIcon"
         app:layout_constraintTop_toBottomOf="@id/bottomBarrier" />
 
     <com.google.android.material.button.MaterialButton

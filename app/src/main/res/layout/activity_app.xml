@@ -10,4 +10,5 @@
     app:navGraph="@navigation/nav_main"
     tools:context=".activity.AppActivity">
 
+
 </androidx.fragment.app.FragmentContainerView>

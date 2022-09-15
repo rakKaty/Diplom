@@ -43,17 +43,17 @@ internal class PreviewRecipesAdapter(
         }
 
         init {
-            binding.likesIcon.setOnClickListener { listener.onLikeClicked(recipe) }
+            binding.favouriteIcon.setOnClickListener { listener.onFavouriteClicked(recipe) }
             binding.shareIcon.setOnClickListener { listener.onShareClicked(recipe) }
             binding.recipePhoto.setOnClickListener { listener.onPlayVideoClicked(recipe) }
             binding.options.setOnClickListener { popupMenu.show() }
         }
 
         init {
-            binding.recipePhoto.setOnClickListener { listener.onPostClicked(recipe.id) }
-            binding.recipeName.setOnClickListener { listener.onPostClicked(recipe.id) }
-            binding.category.setOnClickListener { listener.onPostClicked(recipe.id) }
-            binding.authorName.setOnClickListener { listener.onPostClicked(recipe.id) }
+            binding.recipePhoto.setOnClickListener { listener.onRecipeClicked(recipe.id) }
+            binding.recipeName.setOnClickListener { listener.onRecipeClicked(recipe.id) }
+            binding.category.setOnClickListener { listener.onRecipeClicked(recipe.id) }
+            binding.authorName.setOnClickListener { listener.onRecipeClicked(recipe.id) }
         }
 
 
@@ -63,9 +63,8 @@ internal class PreviewRecipesAdapter(
             with(binding) {
                 recipeName.text = recipe.recipeName
                 authorName.text = recipe.authorName
-                category.text = recipe.recipeCategory.toString()
-                likesIcon.isChecked = recipe.likedByMe
-                likesIcon.text = changeFormatOfNumberToText(recipe.likes)
+                category.text = recipe.recipeCategory
+                favouriteIcon.isChecked = recipe.favouriteByMe
                 shareIcon.text = changeFormatOfNumberToText(recipe.shares)
             }
         }
@@ -100,7 +99,4 @@ internal class PreviewRecipesAdapter(
             oldItem == newItem
     }
 
-    override fun getItemCount(): Int {
-        return super.getItemCount()
-    }
 }

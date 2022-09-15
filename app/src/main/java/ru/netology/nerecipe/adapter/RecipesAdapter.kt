@@ -44,15 +44,16 @@ internal class RecipesAdapter(
 
         init {
             binding.likesIcon.setOnClickListener { listener.onLikeClicked(recipe) }
+            binding.favouriteIcon.setOnClickListener { listener.onFavouriteClicked(recipe) }
             binding.shareIcon.setOnClickListener { listener.onShareClicked(recipe) }
             binding.recipePhoto.setOnClickListener { listener.onPlayVideoClicked(recipe) }
             binding.options.setOnClickListener { popupMenu.show() }
         }
 
         init {
-            binding.recipeText.setOnClickListener { listener.onPostClicked(recipe.id) }
-            binding.authorName.setOnClickListener { listener.onPostClicked(recipe.id) }
-            binding.authorName.setOnClickListener { listener.onPostClicked(recipe.id) }
+            binding.recipeText.setOnClickListener { listener.onRecipeClicked(recipe.id) }
+            binding.authorName.setOnClickListener { listener.onRecipeClicked(recipe.id) }
+            binding.authorName.setOnClickListener { listener.onRecipeClicked(recipe.id) }
         }
 
 
@@ -63,17 +64,14 @@ internal class RecipesAdapter(
                 recipeName.text = recipe.recipeName
                 recipeText.text = recipe.content
                 authorName.text = recipe.authorName
-                category.text = recipe.recipeCategory.toString()
+                category.text = recipe.recipeCategory
+                favouriteIcon.isChecked = recipe.favouriteByMe
                 likesIcon.isChecked = recipe.likedByMe
-                likesIcon.text = changeFormatOfNumberToText(getAmountOfLikes(recipe))
+                likesIcon.text =  changeFormatOfNumberToText(recipe.likes)
                 shareIcon.text = changeFormatOfNumberToText(recipe.shares)
             }
         }
 
-        private fun getAmountOfLikes(recipe: Recipe) =
-            if (recipe.likedByMe) {
-                recipe.likes + 1
-            } else recipe.likes
 
 
         private fun changeFormatOfNumberToText(number: Int): String = when {

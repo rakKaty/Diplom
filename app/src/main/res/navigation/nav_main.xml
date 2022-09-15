@@ -11,23 +11,24 @@
         android:label="fragment_feed"
         tools:layout="@layout/fragment_feed" >
         <action
-            android:id="@+id/action_feedFragment_to_newPostFragment"
-            app:destination="@id/newPostFragment" />
+            android:id="@+id/action_feedFragment_to_newRecipeFragment"
+            app:destination="@id/newRecipeFragment" />
         <action
-            android:id="@+id/action_feedFragment_to_postFragment"
-            app:destination="@id/postFragment" />
+            android:id="@+id/action_feedFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/newPostFragment"
+        android:id="@+id/newRecipeFragment"
         android:name="ru.netology.nerecipe.activity.NewRecipeFragment"
         android:label="fragment_new_post"
         tools:layout="@layout/fragment_new_recipe" />
     <fragment
-        android:id="@+id/postFragment"
+        android:id="@+id/recipeFragment"
         android:name="ru.netology.nerecipe.activity.RecipeFragment"
-        android:label="PostFragment" >
+        android:label="RecipeFragment" >
         <action
-            android:id="@+id/action_postFragment_to_newPostFragment"
-            app:destination="@id/newPostFragment" />
+            android:id="@+id/action_recipeFragment_to_newRecipeFragment"
+            app:destination="@id/newRecipeFragment" />
     </fragment>
+
 </navigation>

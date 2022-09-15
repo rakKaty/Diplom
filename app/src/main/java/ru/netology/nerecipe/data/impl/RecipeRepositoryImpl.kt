@@ -1,11 +1,13 @@
 package ru.netology.nerecipe.data.impl
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import ru.netology.nerecipe.Recipe
 import ru.netology.nerecipe.data.RecipeRepository
-import ru.netology.nmedia.db.RecipeDao
-import ru.netology.nmedia.db.toEntity
-import ru.netology.nmedia.db.toModel
+import ru.netology.nerecipe.db.RecipeDao
+import ru.netology.nerecipe.db.RecipeEntity
+import ru.netology.nerecipe.db.toEntity
+import ru.netology.nerecipe.db.toModel
 
 class RecipeRepositoryImpl(private val dao: RecipeDao) :
     RecipeRepository {
@@ -17,11 +19,16 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) :
 
     override fun save(recipe: Recipe) {
         if (recipe.id == RecipeRepository.NEW_POST_ID) dao.insert(recipe.toEntity())
-        else dao.updateContentById(recipe.id, recipe.content)
+        else dao.updateContentById(recipe.id, recipe.content, recipe.recipeName, recipe.recipeCategory, recipe.photo)
     }
+
 
     override fun like(recipeId: Long) {
         dao.likeById(recipeId)
+    }
+
+    override fun favourite(recipeId: Long) {
+        dao.favouriteById(recipeId)
     }
 
     override fun share(recipeId: Long) {

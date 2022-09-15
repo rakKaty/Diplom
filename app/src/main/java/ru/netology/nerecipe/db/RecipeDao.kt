@@ -1,4 +1,4 @@
-package ru.netology.nmedia.db
+package ru.netology.nerecipe.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -11,11 +11,13 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes ORDER BY id DESC") //здесь posts - имя таблицы из PostEntity
     fun getAll(): LiveData<List<RecipeEntity>>
 
+
     @Insert
     fun insert(post: RecipeEntity)
 
-    @Query("UPDATE recipes SET content = :content WHERE id = :id")
-    fun updateContentById(id: Long, content: String)
+    @Query("UPDATE recipes SET content = :content, recipeName =:recipeName, " +
+            "categoryType =:categoryType, photo =:photo  WHERE id = :id")
+    fun updateContentById(id: Long, content: String, recipeName: String, categoryType: String, photo: String?)
 
 
     @Query("""
@@ -25,6 +27,14 @@ interface RecipeDao {
         WHERE id = :id
         """)
     fun likeById(id: Long)
+
+
+    @Query("""
+        UPDATE recipes SET
+        favouriteByMe = CASE WHEN favouriteByMe THEN 0 ELSE 1 END
+        WHERE id = :id
+        """)
+    fun favouriteById(id: Long)
 
     @Query("""
         UPDATE recipes SET

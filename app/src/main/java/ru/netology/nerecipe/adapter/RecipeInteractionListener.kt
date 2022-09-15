@@ -8,7 +8,16 @@ interface RecipeInteractionListener {
     fun onShareClicked(recipe: Recipe)
     fun onRemoveClicked(recipe: Recipe)
     fun onEditClicked(recipe: Recipe)
-    fun onCreateNewPost(newPostContent : String)
+    fun onFavouriteClicked(recipe: Recipe)
+
+    fun onCreateNewRecipeNew(
+        recipeName: String,
+        content: String,
+        authorName: String,
+        recipeCategory: String,
+        photo: String?
+    )
+
     fun onPlayVideoClicked(recipe: Recipe)
-    fun onPostClicked(id: Long)
+    fun onRecipeClicked(id: Long)
 }

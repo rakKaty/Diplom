@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nerecipe.R
-import ru.netology.nerecipe.activity.NewRecipeFragment.Companion.textArg
 import ru.netology.nerecipe.adapter.RecipesAdapter
 import ru.netology.nerecipe.databinding.FragmentRecipeBinding
 import ru.netology.nerecipe.util.LongArg
@@ -28,7 +27,7 @@ class RecipeFragment : Fragment() {
 
         val viewModel: RecipeViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
-        val viewHolder = RecipesAdapter.RecipeViewHolder(binding.postLayout, viewModel)
+        val viewHolder = RecipesAdapter.RecipeViewHolder(binding.recipeLayout, viewModel)
 
 
         viewModel.shareRecipeContent.observe(viewLifecycleOwner) { post ->
@@ -48,26 +47,12 @@ class RecipeFragment : Fragment() {
             startActivity(intent)
         }
 
-        viewModel.navigateToPostContentScreen.observe(viewLifecycleOwner) { text ->
+        viewModel.navigateToRecipeAddOrEditScreen.observe(viewLifecycleOwner) { recipeId ->
             findNavController().navigate(
-                R.id.action_postFragment_to_newPostFragment,
-                Bundle().apply { textArg = text }
+                R.id.action_recipeFragment_to_newRecipeFragment,
+                Bundle().apply { idArg = recipeId }
             )
         }
-
-        /* тоже самое, что выше, только через элвиса
-               viewModel.data.observe(viewLifecycleOwner) { list ->
-                   val post = list.find { it.id == arguments?.idArg }
-                   if (list.contains(post)){
-                       if (post != null) {
-                           viewHolder.bind(post)
-                       }
-                   } else {
-                       findNavController()
-                           .navigateUp()
-                   }
-               }
-              */
 
 
         viewModel.data.observe(viewLifecycleOwner) { list ->
@@ -77,7 +62,6 @@ class RecipeFragment : Fragment() {
             }
             viewHolder.bind(post)
         }
-
         return binding.root
     }
 

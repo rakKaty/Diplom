@@ -8,4 +8,11 @@
     <string name="post_text">Текст поста</string>
     <string name="menu_edit">Изменить</string>
     <string name="chooser_share_post">Поделиться</string>
+    <string name="recipe_name">Название рецепта:</string>
+    <string name="recipe_author">Автор:</string>
+    <string name="recipe_category">Категория:</string>
+    <string name="recipe_text">Рецепт:</string>
+    <string name="home">Дом</string>
+    <string name="favourite">Избранное</string>
+    <string name="filters">Фильтры</string>
 </resources>
