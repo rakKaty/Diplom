@@ -45,7 +45,6 @@ internal class PreviewRecipesAdapter(
         init {
             binding.favouriteIcon.setOnClickListener { listener.onFavouriteClicked(recipe) }
             binding.shareIcon.setOnClickListener { listener.onShareClicked(recipe) }
-            binding.recipePhoto.setOnClickListener { listener.onPlayVideoClicked(recipe) }
             binding.options.setOnClickListener { popupMenu.show() }
         }
 

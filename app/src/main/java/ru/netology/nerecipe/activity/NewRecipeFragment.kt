@@ -75,10 +75,8 @@ class NewRecipeFragment : Fragment() {
                 recipeCategory,
                 photo
             )
-
             findNavController().navigateUp()
         }
-
         return binding.root
     }
 

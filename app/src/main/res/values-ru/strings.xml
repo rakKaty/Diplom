@@ -15,4 +15,5 @@
     <string name="home">Дом</string>
     <string name="favourite">Избранное</string>
     <string name="filters">Фильтры</string>
+    <string name="text_no_results">РЕЗУЛЬТАТОВ НЕТ</string>
 </resources>

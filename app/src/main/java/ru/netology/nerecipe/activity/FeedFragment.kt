@@ -14,6 +14,8 @@ import ru.netology.nerecipe.activity.RecipeFragment.Companion.idArg
 import ru.netology.nerecipe.adapter.PreviewRecipesAdapter
 import ru.netology.nerecipe.databinding.FragmentFeedBinding
 import ru.netology.nerecipe.viewModel.RecipeViewModel
+import android.widget.SearchView
+import android.widget.Toast
 
 class FeedFragment : Fragment() {
 
@@ -90,6 +92,7 @@ class FeedFragment : Fragment() {
                 R.id.home -> {
 
                     viewModel.data.observe(viewLifecycleOwner) { recipes ->
+                        binding.fab.visibility = View.VISIBLE
                         binding.textBackground.visibility = View.GONE
                         adapter.submitList(recipes)
                     }
@@ -99,12 +102,37 @@ class FeedFragment : Fragment() {
             }
         }
 
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    adapter.submitList(viewModel.data.value)
+                    return true
+                }
+                var recipeList = adapter.currentList
+                recipeList = recipeList.filter { recipe ->
+                    recipe.recipeName.lowercase().contains(newText.lowercase())
+                }
+                viewModel.searchRecipeByName(newText)
+
+                if (recipeList.isEmpty()) {
+                    Toast.makeText(context, "Результатов нет", Toast.LENGTH_SHORT).show()
+                    adapter.submitList(recipeList)
+                } else {
+                    adapter.submitList(recipeList)
+                }
+                return true
+            }
+        })
+
 
 /* НАЧАЛО drag and drop. Проблема - нет досутпа к мутабл дата,
 есть только доступ к дата из вьюМодели - она неизменяемая, просто List
-
-Пошла смотреть бд. Всё равно всё хранение поменяется, может это решит проблему!
-
 
         var touchCallBack:ItemTouchHelper.Callback = object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(
@@ -137,13 +165,9 @@ class FeedFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 TODO("Not yet implemented")
             }
-
         }
-
  */
 
         return binding.root
     }
-
-
 }

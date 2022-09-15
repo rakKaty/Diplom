@@ -18,6 +18,5 @@ interface RecipeInteractionListener {
         photo: String?
     )
 
-    fun onPlayVideoClicked(recipe: Recipe)
     fun onRecipeClicked(id: Long)
 }
