@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,9 @@ import ru.netology.nerecipe.databinding.FragmentFeedBinding
 import ru.netology.nerecipe.viewModel.RecipeViewModel
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.ChipGroup
 
 class FeedFragment : Fragment() {
 
@@ -72,11 +76,16 @@ class FeedFragment : Fragment() {
         binding.recipesRecyclerView.layoutManager = manager
 
 
+
+
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
+
             when (menuItem.itemId) {
                 R.id.favourite -> {
 
                     binding.fab.visibility = View.GONE
+                    binding.chipGroupCategoryFilters.visibility = View.GONE
+                    binding.chipGroupCategoryFilters.clearCheck()
 
                     viewModel.data.observe(viewLifecycleOwner) { recipes ->
                         val favouriteRecipes = recipes.filter { it.favouriteByMe }
@@ -91,6 +100,9 @@ class FeedFragment : Fragment() {
 
                 R.id.home -> {
 
+                    binding.chipGroupCategoryFilters.visibility = View.GONE
+                    binding.chipGroupCategoryFilters.clearCheck()
+
                     viewModel.data.observe(viewLifecycleOwner) { recipes ->
                         binding.fab.visibility = View.VISIBLE
                         binding.textBackground.visibility = View.GONE
@@ -98,12 +110,70 @@ class FeedFragment : Fragment() {
                     }
                     true
                 }
+
+                R.id.filters -> {
+
+                    binding.chipGroupCategoryFilters.visibility = View.VISIBLE
+                    viewModel.data.observe(viewLifecycleOwner) { previewRecipes ->
+                        adapter.submitList(previewRecipes)
+                    }
+
+                    binding.chipGroupCategoryFilters.setOnCheckedStateChangeListener { _, _ ->
+
+                        fun chipIdToText(chipId: Int): String {
+                            return when (chipId) {
+                                binding.categoryStrokeEuropean.id -> "European"
+                                binding.categoryStrokeAsian.id -> "Asian"
+                                binding.categoryStrokeEastern.id -> "Eastern"
+                                binding.categoryStrokeAmerican.id -> "American"
+                                binding.categoryStrokeRussian.id -> "Russian"
+                                binding.categoryStrokeMediterranean.id -> "Mediterranean"
+                                binding.categoryStrokePanasian.id -> "Pan-Asian"
+                                else -> "Без категории"
+                            }
+                        }
+
+                        val chosenRecipeCategory =
+                            chipIdToText(binding.chipGroupCategoryFilters.checkedChipId)
+
+                        viewModel.data.observe(viewLifecycleOwner) { recipes ->
+                            val recipesByCategory = recipes.filter {
+                                it.recipeCategory == chosenRecipeCategory
+                            }
+                            adapter.submitList(recipesByCategory)
+
+                            if (recipesByCategory.isEmpty()) {
+                                Toast.makeText(context, "Результатов нет", Toast.LENGTH_SHORT)
+                                    .show()
+                                adapter.submitList(recipesByCategory)
+                            } else {
+                                adapter.submitList(recipesByCategory)
+                            }
+
+                        }
+
+                    }
+
+                    true
+                }
                 else -> false
             }
         }
 
+
+
+    /* Не реботает
+        binding.searchView.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus)
+                binding.chipGroupCategoryFilters.visibility = View.GONE
+            viewModel.data.observe(viewLifecycleOwner) { previewRecipes ->
+                adapter.submitList(previewRecipes)
+            }
+        } */
+
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -114,34 +184,40 @@ class FeedFragment : Fragment() {
                     adapter.submitList(viewModel.data.value)
                     return true
                 }
-                var recipeList = adapter.currentList
-                recipeList = recipeList.filter { recipe ->
-                    recipe.recipeName.lowercase().contains(newText.lowercase())
-                }
-                viewModel.searchRecipeByName(newText)
 
-                if (recipeList.isEmpty()) {
-                    Toast.makeText(context, "Результатов нет", Toast.LENGTH_SHORT).show()
-                    adapter.submitList(recipeList)
-                } else {
-                    adapter.submitList(recipeList)
+                binding.chipGroupCategoryFilters.visibility = View.GONE
+                binding.chipGroupCategoryFilters.clearCheck()
+
+                viewModel.data.observe(viewLifecycleOwner) { recipes ->
+                    val recipesSearchByName = recipes.filter { recipe ->
+                        recipe.recipeName.lowercase().contains(newText.lowercase())
+                    }
+                    viewModel.searchRecipeByName(newText)
+
+
+                    if (recipesSearchByName.isEmpty()) {
+                        Toast.makeText(context, "Результатов нет", Toast.LENGTH_SHORT).show()
+                        adapter.submitList(recipesSearchByName)
+                    } else {
+                        adapter.submitList(recipesSearchByName)
+                    }
                 }
                 return true
             }
-        })
+        }
+        )
 
 
-/* НАЧАЛО drag and drop. Проблема - нет досутпа к мутабл дата,
-есть только доступ к дата из вьюМодели - она неизменяемая, просто List
-
-        var touchCallBack:ItemTouchHelper.Callback = object : ItemTouchHelper.Callback() {
+        var touchCallBack: ItemTouchHelper.Callback = object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
             ): Int {
-                return makeFlag(ItemTouchHelper.ACTION_STATE_DRAG,
+                return makeFlag(
+                    ItemTouchHelper.ACTION_STATE_DRAG,
                     ItemTouchHelper.DOWN or ItemTouchHelper.UP
-                            or ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT)
+                            or ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+                )
             }
 
             override fun onMove(
@@ -149,16 +225,20 @@ class FeedFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                if(viewHolder.itemViewType != target.itemViewType)
+                if (viewHolder.itemViewType != target.itemViewType)
                     return false
 
                 val from = viewHolder.bindingAdapterPosition
                 val to = target.bindingAdapterPosition
 
+
+                val list = adapter.currentList.toMutableList()
+
                 val item = list.removeAt(from)
                 list.add(to, item)
 
-                recyclerView.adapter!!.notifyItemMoved(from, to)
+                adapter.submitList(list)
+
                 return true
             }
 
@@ -166,8 +246,12 @@ class FeedFragment : Fragment() {
                 TODO("Not yet implemented")
             }
         }
- */
+        val touchHelper = ItemTouchHelper(touchCallBack)
+        touchHelper.attachToRecyclerView(binding.recipesRecyclerView)
+
 
         return binding.root
     }
+
+
 }
