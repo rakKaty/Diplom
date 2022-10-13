@@ -61,6 +61,8 @@ class RecipeViewModel(
 
     fun searchRecipeByName(recipeName: String) = repository.search(recipeName)
 
+    fun searchRecipeByCategory(recipeCategory: String) = repository.search(recipeCategory)
+
     //region PostInteractionListener
     override fun onLikeClicked(recipe: Recipe) = repository.like(recipe.id)
 

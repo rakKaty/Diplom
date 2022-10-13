@@ -23,7 +23,6 @@
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="false"
         android:hint="@strings/search_here"
         app:layout_constraintBottom_toTopOf="@id/recipesRecyclerView"
         tools:ignore="MissingConstraints" />
@@ -35,8 +34,79 @@
         android:layout_margin="@dimen/common_spacing"
         android:contentDescription="@string/description"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_add_24dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupCategoryFilters"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/common_spacing"
+        app:chipSpacingVertical = "-8dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:singleSelection="true"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:background="#FFFFFF"
+        app:color="@color/chip_selector">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/categoryStrokeEuropean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            android:text="@string/chip_category_european" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/categoryStrokeAsian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            android:text="@string/chip_category_asian" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/categoryStrokeEastern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            android:text="@string/chip_category_eastern" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/categoryStrokeAmerican"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            android:text="@string/chip_category_american" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/categoryStrokeRussian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            android:text="@string/chip_category_russian" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/categoryStrokeMediterranean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            android:text="@string/chip_category_mediterranean" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/categoryStrokePanasian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            android:text="@string/chip_category_panasian" />
+    </com.google.android.material.chip.ChipGroup>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

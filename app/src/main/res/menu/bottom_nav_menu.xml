@@ -2,14 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:title="@string/home"
-        android:icon="@drawable/ic_home_48dp"/>
+        android:icon="@drawable/ic_home_48dp"
+        android:title="@string/home" />
     <item
         android:id="@+id/favourite"
-        android:title="@string/favourite"
-        android:icon="@drawable/ic_favourite_pressed_48dp"/>
+        android:icon="@drawable/ic_favourite_pressed_48dp"
+        android:title="@string/favourite" />
+
     <item
         android:id="@+id/filters"
-        android:title="@string/filters"
-        android:icon="@drawable/ic_filter_48dp"/>
+        android:icon="@drawable/ic_filter_48dp"
+        android:title="@string/filters" />
+
 </menu>
